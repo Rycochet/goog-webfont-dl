@@ -6,11 +6,11 @@ function FakeFile() {
   this.s = "";
 }
 
-FakeFile.prototype.write = function(s) {
+FakeFile.prototype.write = function (s) {
   this.s += s;
 };
 
-FakeFile.prototype.toString = function() {
+FakeFile.prototype.toString = function () {
   return this.s;
 };
 
@@ -32,8 +32,14 @@ function getFile(outFile) {
   }
 }
 
+function quoteName(name) {
+  return name.indexOf(" ") >= 0
+    ? "'" + name + "'"
+    : name;
+}
+
 function generateCSS(options, parsingResults) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var usingStdout = options.out === "-";
     var cssOutFile = options.out;
     var cssObj = parsingResults.cssObj;
@@ -42,9 +48,9 @@ function generateCSS(options, parsingResults) {
     var cssOut = getFile(cssOutFile);
 
     // write out css with new file names
-    for(var subset in cssObj) {
+    for (var subset in cssObj) {
       var subsetObj = cssObj[subset];
-      for(var family in subsetObj) {
+      for (var family in subsetObj) {
         var familyObj = subsetObj[family];
         for (var style in familyObj) {
           var styleObj = familyObj[style];
@@ -56,13 +62,13 @@ function generateCSS(options, parsingResults) {
             }
 
             cssOut.write("@font-face {\n");
-            cssOut.write("  font-family: '" + family + "';\n");
+            cssOut.write("  font-family: " + quoteName(family) + ";\n");
             cssOut.write("  font-style: " + style + ";\n");
             cssOut.write("  font-weight: " + weight + ";\n");
 
             // special handling for eot (ie 9)
             if (weightObj.urls["embedded-opentype"]) {
-              cssOut.write("  src: url(" + weightObj.urls["embedded-opentype"] + ");\n");
+              cssOut.write("  src: url(" + quoteName(weightObj.urls["embedded-opentype"]) + ");\n");
             }
             cssOut.write("  src: ");
 
@@ -78,7 +84,7 @@ function generateCSS(options, parsingResults) {
               else {
                 addComma = true;
               }
-              cssOut.write("local('" + localName + "')");
+              cssOut.write("local(" + quoteName(localName) + ")");
             }
 
             // url and formats
@@ -97,7 +103,7 @@ function generateCSS(options, parsingResults) {
               else {
                 addComma = true;
               }
-              cssOut.write("url(" + url + ") format('" + format + "')");
+              cssOut.write("url(" + quoteName(url) + ") format('" + format + "')");
             }
             cssOut.write(";\n");
 
@@ -116,11 +122,11 @@ function generateCSS(options, parsingResults) {
         console.log("CSS output was successfully written to “" + cssOutFile + "”");
       }
 
-      cssOut.on("error", function(err) {
+      cssOut.on("error", function (err) {
         reject(new Error("write error: " + err));
       });
 
-      cssOut.on("finish", function() {
+      cssOut.on("finish", function () {
         resolve();
       });
 
