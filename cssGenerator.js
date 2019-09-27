@@ -62,15 +62,15 @@ function generateCSS(options, parsingResults) {
             }
 
             cssOut.write("@font-face {\n");
-            cssOut.write("  font-family: " + quoteName(family) + ";\n");
-            cssOut.write("  font-style: " + style + ";\n");
-            cssOut.write("  font-weight: " + weight + ";\n");
+            cssOut.write("    font-family: " + quoteName(family) + ";\n");
+            cssOut.write("    font-style: " + style + ";\n");
+            cssOut.write("    font-weight: " + weight + ";\n");
 
             // special handling for eot (ie 9)
             if (weightObj.urls["embedded-opentype"]) {
-              cssOut.write("  src: url(" + quoteName(weightObj.urls["embedded-opentype"]) + ");\n");
+              cssOut.write("    src: url(" + quoteName(weightObj.urls["embedded-opentype"]) + ");\n");
             }
-            cssOut.write("  src: ");
+            cssOut.write("    src: ");
 
             var addComma = false;
 
@@ -108,10 +108,10 @@ function generateCSS(options, parsingResults) {
             cssOut.write(";\n");
 
             if (weightObj.unicodeRange) {
-              cssOut.write("  unicode-range: " + weightObj.unicodeRange + ";\n");
+              cssOut.write("    unicode-range: " + weightObj.unicodeRange + ";\n");
             }
 
-            cssOut.write("}\n\n");
+            cssOut.write("}\n");
           }
         }
       }

@@ -9,7 +9,7 @@ var cssGenerator = require("./cssGenerator");
 
 var allFormats = ["ttf", "eot", "woff", "woff2", "svg"];
 var allStyles = [
-  "100",       "300",       "400",       "700",       "900",
+  "100", "300", "400", "700", "900",
   "100italic", "300italic", "400italic", "700italic", "900italic",
 ];
 
@@ -61,7 +61,7 @@ function googWebFontDl(options) {
   }
 
   if (options.proxy) {
-    request = request.defaults({"proxy": options.proxy});
+    request = request.defaults({ "proxy": options.proxy });
   }
 
   var parsingResults = {
@@ -69,9 +69,9 @@ function googWebFontDl(options) {
     fontUrls: []
   };
 
-  return cssParser(options, url, parsingResults).then(function() {
+  return cssParser(options, url, parsingResults).then(function () {
     return fontDownloader(options, parsingResults);
-  }).then(function() {
+  }).then(function () {
     return cssGenerator(options, parsingResults);
   });
 }

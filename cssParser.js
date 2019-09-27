@@ -7,13 +7,13 @@ var _ = require("lodash");
 var userAgentMap = {
   woff2: "Mozilla/5.0 (X11; Linux x86_64) Gecko/20100101 Firefox/40.0",
   woff: "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",
-  eot:  "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)",
-  svg:  "Mozilla/4.0 (iPad; CPU OS 4_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/4.1 Mobile/9A405 Safari/7534.48.3",
-  ttf:  "node.js"
+  eot: "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)",
+  svg: "Mozilla/4.0 (iPad; CPU OS 4_0_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/4.1 Mobile/9A405 Safari/7534.48.3",
+  ttf: "node.js"
 };
 
 function downloadCSS(format, url) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var opts = {
       url: url,
       headers: {
@@ -21,7 +21,7 @@ function downloadCSS(format, url) {
       }
     };
 
-    request(opts, function(err, response, body) {
+    request(opts, function (err, response, body) {
       if (err) {
         return reject(err);
       }
@@ -36,7 +36,7 @@ function downloadCSS(format, url) {
 
 function getSubObj(obj, props) {
   var curr = obj;
-  for(var i = 0; i < props.length; i++) {
+  for (var i = 0; i < props.length; i++) {
     var prop = props[i];
     var subObj = curr[prop];
     if (!subObj) {
@@ -114,7 +114,7 @@ function parseCSS(format, options, results, cssText) {
             regEx = /url\((\S+?)\)\s*format\('?(\S+?)'?\)/;
             match = regEx.exec(token);
             if (match !== null) {
-              urls.push({url: match[1], format: match[2]});
+              urls.push({ url: match[1], format: match[2] });
               continue;
             }
           }
@@ -122,7 +122,7 @@ function parseCSS(format, options, results, cssText) {
             regEx = /url\((\S+?)\)/;
             match = regEx.exec(token);
             if (match !== null) {
-              urls.push({url: match[1], format: "embedded-opentype"});
+              urls.push({ url: match[1], format: "embedded-opentype" });
               if (localNames.length === 0) {
                 localNames.push(family);
               }
@@ -137,8 +137,7 @@ function parseCSS(format, options, results, cssText) {
     }
 
     if (urls.length > 0 && localNames.length > 0 && subset !== null &&
-        family !== null && style !== null && weight !== null)
-    {
+      family !== null && style !== null && weight !== null) {
       var subObj = getSubObj(results.cssObj, [subset, family, style, weight]);
       if (!subObj.localNames) {
         subObj.localNames = [];
@@ -166,7 +165,7 @@ function parseCSS(format, options, results, cssText) {
           defaultLocalName + "-" + subset + ext);
         subObj.urls[_format] = posix.join(options.prefix, newFilename);
 
-        results.fontUrls.push({url: url, name: newFilename});
+        results.fontUrls.push({ url: url, name: newFilename });
       }
 
       // add unicode range
@@ -180,19 +179,19 @@ function parseCSS(format, options, results, cssText) {
 
 function downloadAndParseCSS(options, url, parsingResults) {
   function parse(format, cssText) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       try {
         parseCSS(format, options, parsingResults, cssText);
         resolve();
       }
-      catch(err) {
+      catch (err) {
         reject(err);
       }
     });
   }
 
   function downloadAndParse(format) {
-    return downloadCSS(format, url).then(function(body) {
+    return downloadCSS(format, url).then(function (body) {
       return parse(format, body);
     });
   }

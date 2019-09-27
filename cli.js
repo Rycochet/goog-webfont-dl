@@ -38,7 +38,7 @@ delete commander.args;
 // validate and prepare formats
 commander.formats = (commander.all)
   ? downloader.formats
-  : downloader.formats.filter(function(f) { return !!commander[f]; });
+  : downloader.formats.filter(function (f) { return !!commander[f]; });
 
 if (commander.formats.length === 0) {
   console.error("please select at least one format (or -a for all formats)");
@@ -64,7 +64,7 @@ if (!commander.out) {
 commander.verbose = !commander.quiet;
 delete commander.quiet;
 
-downloader(commander).catch(function(err) {
+downloader(commander).catch(function (err) {
   console.error(err.stack);
   process.exit(1);
 });

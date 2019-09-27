@@ -6,8 +6,8 @@ var mkdirp = require("mkdirp");
 var _ = require("lodash");
 
 function createDirectory(options) {
-  return new Promise(function(resolve, reject) {
-    mkdirp(options.destination, function(err) {
+  return new Promise(function (resolve, reject) {
+    mkdirp(options.destination, function (err) {
       if (err) {
         return reject(err);
       }
@@ -18,14 +18,14 @@ function createDirectory(options) {
 }
 
 function downloadFont(destination, font) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var out = fs.createWriteStream(path.join(destination, font.name));
 
-    out.on("error", function(err) {
+    out.on("error", function (err) {
       reject(err);
     });
 
-    out.on("finish", function() {
+    out.on("finish", function () {
       resolve();
     });
 
@@ -34,7 +34,7 @@ function downloadFont(destination, font) {
 }
 
 function downloadFonts(options, parsingResults) {
-  return createDirectory(options).then(function() {
+  return createDirectory(options).then(function () {
     function download(obj) {
       downloadFont(options.destination, obj);
     }
