@@ -9,8 +9,8 @@
   "dependencies": {
     "request": "^2.88.0",
     "css": "^2.2.4",
-    "commander": "^2.20.0",
-    "lodash": "^4.17.11",
+    "commander": "^3.0.2",
+    "lodash": "^4.17.15",
     "mkdirp": "^0.5.1",
     "bluebird": "^3.5.5"
   },
